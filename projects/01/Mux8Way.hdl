@@ -1,0 +1,36 @@
+
+CHIP Mux8Way {
+    IN a, b, c, d, e, f, g, h, sel[3];
+    OUT out;
+
+    PARTS:
+    Not(in=sel[0], out=nsel0);
+    Not(in=sel[1], out=nsel1);
+    Not(in=sel[2], out=nsel2);
+    And3(a=nsel2, b=nsel1, c=nsel0, out=s1);
+    And3(a=nsel2, b=nsel1, c=sel[0], out=s2);
+    And3(a=nsel2, b=sel[1], c=nsel0, out=s3);
+    And3(a=nsel2, b=sel[1], c=sel[0], out=s4);
+    And3(a=sel[2], b=nsel1, c=nsel0, out=s5);
+    And3(a=sel[2], b=nsel1, c=sel[0], out=s6);
+    And3(a=sel[2], b=sel[1], c=nsel0, out=s7);
+    And3(a=sel[2], b=sel[1], c=sel[0], out=s8);
+
+    And(a=a, b=s1, out=e1);
+    And(a=b, b=s2, out=e2);
+    And(a=c, b=s3, out=e3);
+    And(a=d, b=s4, out=e4);
+    And(a=e, b=s5, out=e5);
+    And(a=f, b=s6, out=e6);
+    And(a=g, b=s7, out=e7);
+    And(a=h, b=s8, out=e8);
+
+    Or(a=e1, b=e2, out=t1);
+    Or(a=t1, b=e3, out=t2);
+    Or(a=t2, b=e4, out=t3);
+    Or(a=t3, b=e5, out=t4);
+    Or(a=t4, b=e6, out=t5);
+    Or(a=t5, b=e7, out=t6);
+    Or(a=t6, b=e8, out=out);
+
+}
